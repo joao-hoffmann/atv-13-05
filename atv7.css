@@ -1,0 +1,22 @@
+/* Estilo para a tabela */
+.tabela-notas {
+    width: 100%; /* Largura total */
+    border-collapse: collapse; /* Remove o espaçamento entre as células */
+  }
+  
+  .tabela-notas th, .tabela-notas td {
+    border: 1px solid black; /* Borda fina nas células */
+    text-align: center; /* Alinha o texto ao centro */
+    padding: 8px; /* Espaçamento interno */
+  }
+  
+  /* Estilo para o cabeçalho */
+  .tabela-notas thead {
+    background-color: lightgray; /* Cor de fundo cinza no cabeçalho */
+  }
+  
+  /* Efeito ao passar o mouse nas linhas */
+  .tabela-notas tr:hover {
+    background-color: #f2f2f2; /* Muda a cor da linha para um tom claro */
+  }
+  
