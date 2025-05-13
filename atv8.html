@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(to bottom, #e72354, #fad37a);
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            background-color: white;
+            border: 3px solid #333;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+            font-size: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+        }
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: black;
+        }
+        .imagem-pokemon {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            object-fit: contain;
+        }
+        .info-pokemon {
+            font-size: 18px;
+            color: #000000;
+        }
+        .info-pokemon p {
+            margin: 6px 0;
+        }
+        .fita-tipo {
+            display: inline-block;
+            background-color: #06d6a0;
+            padding: 5px 12px;
+            border-radius: 14px;
+            margin-top: 8px;
+        }
+        .area-busca {
+            margin-top: 20px;
+        }
+        .area-busca input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 80%;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .area-busca button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: #06d6a0;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .area-busca button:hover {
+            background-color: #04a38b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pokédex</h1>
+        <img class="imagem-pokemon" src="https://via.placeholder.com/150" alt="Imagem do Pokémon" id="imagem">
+        <div class="info-pokemon">
+            <p><strong>Nome:</strong> <span id="nome">---</span></p>
+            <p><strong>Número:</strong> <span id="numero">---</span></p>
+            <p><strong>Tipo:</strong> <span id="tipo">---</span></p>
+        </div>
+        <div class="area-busca">
+            <input type="text" id="entrada" placeholder="Digite o nome ou número do Pokémon">
+            <button id="botao-buscar">Buscar</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('botao-buscar').addEventListener('click', function() {
+            const pokemonInput = document.getElementById('entrada').value.toLowerCase();
+            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonInput}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Pokémon não encontrado');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('nome').textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+                    document.getElementById('numero').textContent = `#${data.id}`;
+                    document.getElementById('tipo').textContent = data.types.map(type => type.type.name).join(', ');
+                    document.getElementById('imagem').src = data.sprites.front_default;
+                })
+                .catch(error => {
+                    alert(error.message);
+                    document.getElementById('nome').textContent = '---';
+                    document.getElementById('numero').textContent = '---';
+                    document.getElementById('tipo').textContent = '---';
+                    document.getElementById('imagem').src = 'https://via.placeholder.com/150';
+                });
+        });
+    </script>
+</body>
+</html>
